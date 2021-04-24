@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>画板</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <canvas id="canvas" ></canvas>
+    <script>
+        let canvas = document.getElementById("canvas");
+        canvas.width = document.documentElement.clientWidth
+        canvas.height = document.documentElement.clientHeight
+        let ctx = canvas.getContext("2d");
+
+
+
+
+        ctx.fillStyle = "black";
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 20;
+        ctx.lineCap = "round";
+
+        let painting = false
+        let last;
+
+        let isTouchDevice = 'ontouchstart' in document.documentElement;
+        console.log("")
+        if (isTouchDevice) {
+            canvas.ontouchmove = (e) => {
+                let x = e.touches[0].clientX;
+                let y = e.touches[0].clientY;
+                // ctx.beginPath();
+                // ctx.arc(x, y,10, 0, Math.PI * 2);
+                // ctx.stroke();
+                // ctx.fill();
+
+                drawLine(ctx, last[0], last[1], x, y);
+                last = [x, y];
+            }
+            canvas.ontouchstart = (e) => {
+                // console.log("ontouchstart");
+                // console.log(e);
+                // console.log("===================================================");
+                let x = e.changedTouches[0].clientX;
+                let y = e.changedTouches[0].clientY;
+                last = [x, y];
+
+            }
+
+        } else {
+            canvas.onmousedown = (e) => {
+                painting = true
+                last = [e.clientX, e.clientY];
+            }
+
+            canvas.onmousemove = (e) => {
+                if (painting === true) {
+                    drawLine(ctx, last[0], last[1], e.clientX, e.clientY);
+                    last = [e.clientX, e.clientY];
+                } else {
+                    console.log('什么都不做')
+                }
+            }
+
+            canvas.onmouseup = () => {
+                painting = false
+            }
+        }
+
+
+
+        function drawLine(context, x1, y1, x2, y2) {
+            context.beginPath();
+            context.moveTo(x1, y1);
+            context.lineTo(x2, y2);
+            context.stroke();
+        }
+
+    </script>
+</body>
+
+</html>
