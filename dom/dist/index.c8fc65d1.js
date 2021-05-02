@@ -1,0 +1,2 @@
+!function(){console.log("hi");const d=dom.create('\n<div id="test">\n\t<div class="red">test</div>\n</div>\n');dom.append(document.body,d),document.body;const o=dom.find("#test>.red")[0];dom.style(o,"color","red");const n=dom.find(".red");dom.each(n,(d=>console.log(d)));const e=dom.create('\n<div id="wrapDiv">\n123\n</div>\n');dom.append(document.body,e),dom.wrap(o,e)}();
+//# sourceMappingURL=index.c8fc65d1.js.map
